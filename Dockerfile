@@ -31,11 +31,11 @@ RUN tar -xvzf latest.tar.gz
 RUN rm latest.tar.gz
 
 COPY ./src/wp-config.php /var/www/html
-
-RUN chown -R www-data:www-data *
-RUN chmod -R 755 /var/www/*
+WORKDIR /
+COPY ./src/autoindex.sh ./
+RUN chmod 777 autoindex.sh
 
 EXPOSE 80 443
-
+RUN rm -rf /var/www/html/index.nginx-debian.html
 COPY ./src/init.sh ./
 CMD bash init.sh
